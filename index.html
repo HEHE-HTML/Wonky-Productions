@@ -31,9 +31,6 @@
             animation: scrollGrid 10s linear infinite;
             z-index: -1;
         }
-        .game-button:hover, .game-button-featured:hover {
-            transform: scale(1.04);
-        }
         @keyframes scrollGrid {
             from { background-position: 0 0; }
             to { background-position: 0px 200px; }
@@ -77,6 +74,7 @@
             transition: all 0.2s ease-in-out;
             text-decoration: none;
             color: black;
+            position: relative;
         }
         .juicy-button:hover {
             transform: scale(1.1);
@@ -86,17 +84,17 @@
             position: absolute;
             bottom: 20px;
             display: flex;
-            gap: 20px;
+            background: #333;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .lower-bar div {
-            padding: 10px 20px;
-            background: #333;
+            padding: 12px 25px;
             color: white;
-            border-radius: 5px;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
             font-size: 1rem;
             cursor: pointer;
-            transition: background 0.2s ease-in-out;
+            transition: background 0.3s ease-in-out;
         }
         .lower-bar div:hover {
             background: #555;
@@ -115,16 +113,26 @@
             overflow-y: auto;
             max-height: 70vh; /* adjust as needed */
         }
+        .game-button-container {
+            margin: 10px;
+            position: relative;
+            width: 200px;
+        }
+        
         .game-button, .game-button-featured {
             width: 200px;
             height: 200px;
-            margin: 10px;
             border-radius: 10px;
             background-color: #ddd;
             display: inline-block;
             position: relative;
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
+            overflow: hidden;
+        }
+        
+        .game-button:hover, .game-button-featured:hover {
+            transform: scale(1.04);
         }
         
         /* Regular game button style */
@@ -139,18 +147,22 @@
             position: relative;
         }
 
-        /* Featured label */
+        /* Featured label - now outside the button */
         .featured-label {
             position: absolute;
-            top: -30px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 0.9rem;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ffd700, #ffea2b);
+            color: #333;
+            padding: 3px 12px;
+            font-size: 0.8rem;
             font-weight: bold;
-            color: rgba(218, 165, 32, 0.8);
+            border-radius: 15px;
             letter-spacing: 1px;
             text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
         }
 
         .game-button img, .game-button-featured img {
@@ -233,8 +245,11 @@
             color: #333;
         }
         .info-content {
-            line-height: 1.6;
+            line-height: 1.8;
             color: #444;
+        }
+        .info-content p {
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -250,51 +265,66 @@
     </div>
 
     <div class="more-games-section" id="moreGamesSection">
-        <div class="game-button-featured" data-id="0">
-            <a href="https://hehe-html.github.io/Chess-Game/" target="_blank">
+        <div class="game-button-container" data-id="0">
             <div class="featured-label">Featured</div>
-            <img src="thumbnailalt.png" alt="Game 1" />
-            <div class="game-title">Checkers</div>
-            </a>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/Chess-Game/" target="_blank">
+                <img src="thumbnail1alt.png" alt="Game 1" />
+                <div class="game-title">Checkers</div>
+                </a>
+            </div>
         </div>
-        <div class="game-button-featured" data-id="1">
-            <a href="https://hehe-html.github.io/Ascii-Crawler/" target="_blank">
+        <div class="game-button-container" data-id="1">
             <div class="featured-label">Featured</div>
-            <img src="thumbnail2.jpg" alt="Game 2" />
-            <div class="game-title">Ascii Crawl</div>
-            </a>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/Ascii-Crawler/" target="_blank">
+                <img src="thumbnail2.jpg" alt="Game 2" />
+                <div class="game-title">Ascii Crawl</div>
+                </a>
+            </div>
         </div>
-        <div class="game-button-featured" data-id="2">
-            <a href="https://sprig.hackclub.com/gallery/Push-Peril" target="_blank">
+        <div class="game-button-container" data-id="2">
             <div class="featured-label">Featured</div>
-            <img src="thumbnail3.png" alt="Game 3" />
-            <div class="game-title">Push & Peril</div>
-            </a>
+            <div class="game-button-featured">
+                <a href="https://sprig.hackclub.com/gallery/Push-Peril" target="_blank">
+                <img src="thumbnail3.png" alt="Game 3" />
+                <div class="game-title">Push & Peril</div>
+                </a>
+            </div>
         </div>
-        <div class="game-button-featured" data-id="3">
-            <a href="https://hydrokube.github.io/gainz/" target="_blank">
+        <div class="game-button-container" data-id="3">
             <div class="featured-label">Featured</div>
-            <img src="thumbnail4.jpg" alt="Game 4" />
-            <div class="game-title">Idle Gainz</div>
-            </a>
+            <div class="game-button-featured">
+                <a href="https://hydrokube.github.io/gainz/" target="_blank">
+                <img src="thumbnail4.jpg" alt="Game 4" />
+                <div class="game-title">Idle Gainz</div>
+                </a>
+            </div>
         </div>
-        <div class="game-button" data-id="other">
-            <img src="placeholder.png" alt="Other Game" />
-            <div class="game-title">Coming Soon</div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
         </div>
-        <div class="game-button" data-id="other">
-            <img src="placeholder.png" alt="Other Game" />
-            <div class="game-title">Coming Soon</div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
         </div>
-        <div class="game-button" data-id="other">
-            <img src="placeholder.png" alt="Other Game" />
-            <div class="game-title">Coming Soon</div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
         </div>
-        <div class="game-button" data-id="other">
-            <img src="placeholder.png" alt="Other Game" />
-            <div class="game-title">Coming Soon</div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
         </div>
-
     </div>
 
     <!-- Stats Section -->
@@ -340,9 +370,13 @@
     <div class="info-section" id="homeSection">
         <h2 class="info-title">Welcome to Wonky Productions</h2>
         <div class="info-content">
-            <p>Wonky Productions is a small indie game studio dedicated to creating fun and unique gaming experiences. Founded in 2023, we strive to make games that are both entertaining and easy to make!</p>
-            <p>Our games range from casual puzzle games to more complex strategy games, all with our signature wonky style and quirky humor.</p>
-            <p>Explore our collection and find your next favorite game!</p>
+            <p>Wonky Productions is a small indie game studio dedicated to creating fun and unique gaming experiences. Founded in 2023, we strive to make games that are both entertaining and accessible to everyone.</p>
+            
+            <p>Our passion lies in developing games with quirky mechanics, charming visuals, and that special "wonky" touch that makes them stand out from the crowd.</p>
+            
+            <p>From casual puzzle games to more complex strategy challenges, all our creations share our signature wonky style and quirky humor that players have come to love.</p>
+            
+            <p>We believe gaming should be fun, surprising, and occasionally a little bit weird! Browse through our collection and discover your next favorite game adventure.</p>
         </div>
     </div>
 
@@ -350,9 +384,13 @@
     <div class="info-section" id="aboutSection">
         <h2 class="info-title">About Me</h2>
         <div class="info-content">
-            <p>Hello! I'm the creator behind Wonky Productions. I've been passionate about game development since I was a kid, and I started programming my first games when I was just 9 years old.</p>
-            <p>I have enjoyed creating games for a long time, and have found both graphic design and programming to be enticing and satisfactory.</p>
-            <p>When I'm not developing games, you can find me reading, playing with friends, or even pursuing other creative interests!</p>
+            <p>Hello! I'm the creative mind behind Wonky Productions. My journey in game development began at a young age - I programmed my first games when I was just 9 years old and have been hooked ever since.</p>
+            
+            <p>What started as a childhood hobby has grown into a lifelong passion. I find both graphic design and programming incredibly rewarding, especially when they come together to create interactive experiences that bring joy to players.</p>
+            
+            <p>The name "Wonky Productions" reflects my design philosophy: games don't always need to be perfectly polished to be perfectly fun. Sometimes the most memorable experiences come from the unexpected quirks and creative solutions.</p>
+            
+            <p>When I'm not developing games, you can find me reading fantasy novels, playing board games with friends, or exploring other creative outlets that inspire my next gaming project!</p>
         </div>
     </div>
 
@@ -361,12 +399,16 @@
         <h2 class="info-title">Contact Us</h2>
         <div class="info-content">
             <p>Have questions, suggestions, or just want to say hello? We'd love to hear from you!</p>
-            <p>
-                                                                 
-            </p>
-            <p>Email: playwonkygames@gmail.com</p>
-            <p>Itch: https://play-this-game.itch.io/</p>
-            <p>We try to respond to all inquiries within 48 hours. For business inquiries, please use the email above with "Business" in the subject line! </p>
+            
+            <p>Whether you've found a bug in one of our games, have an idea for a collaboration, or simply want to share your experience, your feedback is incredibly valuable to us.</p>
+            
+            <p><strong>Email:</strong> playwonkygames@gmail.com</p>
+            
+            <p><strong>Itch.io:</strong> https://play-this-game.itch.io/</p>
+            
+            <p>We aim to respond to all inquiries within 48 hours. For partnership opportunities or business-related matters, please include "Business" in your email subject line.</p>
+            
+            <p>Follow us on social media to stay updated on our latest releases, behind-the-scenes content, and upcoming projects!</p>
         </div>
     </div>
 
@@ -398,86 +440,90 @@
             setStat("totalTimeSpent", timeSpent);
         });
     
-        // Track Game Clicks for both regular and featured games
-        document.querySelectorAll(".game-button, .game-button-featured").forEach((button) => {
-            button.addEventListener("click", function () {
-                let gameId = this.getAttribute("data-id");
-                let gameKey = "gameClicks_" + gameId;
-                setStat(gameKey, getStat(gameKey) + 1);
-                updateStatsDisplay(); // Update the display when a game is clicked
-            });
+        // Track Game Clicks only for buttons with links
+        document.querySelectorAll(".game-button-container").forEach((container) => {
+            const gameId = container.getAttribute("data-id");
+            const links = container.querySelectorAll("a");
+            
+            // Only add click event if there's a link
+            if (links.length > 0) {
+                links[0].addEventListener("click", function () {
+                    let gameKey = "gameClicks_" + gameId;
+                    setStat(gameKey, getStat(gameKey) + 1);
+                    updateStatsDisplay(); // Update the display when a game is clicked
+                });
+            }
         });
     
-        // Toggle sections
-// Toggle sections with close functionality
-document.getElementById("moreGamesButton").addEventListener("click", function() {
-    const gamesSection = document.getElementById("moreGamesSection");
-    if (gamesSection.classList.contains("active")) {
-        // If already active, just close it
-        gamesSection.classList.remove("active");
-    } else {
-        // Otherwise hide all and open this one
-        hideAllSections();
-        gamesSection.classList.add("active");
-    }
-});
+        // Toggle sections with close functionality
+        document.getElementById("moreGamesButton").addEventListener("click", function() {
+            const gamesSection = document.getElementById("moreGamesSection");
+            if (gamesSection.classList.contains("active")) {
+                // If already active, just close it
+                gamesSection.classList.remove("active");
+            } else {
+                // Otherwise hide all and open this one
+                hideAllSections();
+                gamesSection.classList.add("active");
+            }
+        });
 
-document.getElementById("statsButton").addEventListener("click", function() {
-    const statsSection = document.getElementById("statsSection");
-    if (statsSection.classList.contains("active")) {
-        // If already active, just close it
-        statsSection.classList.remove("active");
-    } else {
-        // Otherwise hide all and open this one
-        hideAllSections();
-        statsSection.classList.add("active");
-        updateStatsDisplay(); // Make sure stats are up to date when shown
-    }
-});
+        document.getElementById("statsButton").addEventListener("click", function() {
+            const statsSection = document.getElementById("statsSection");
+            if (statsSection.classList.contains("active")) {
+                // If already active, just close it
+                statsSection.classList.remove("active");
+            } else {
+                // Otherwise hide all and open this one
+                hideAllSections();
+                statsSection.classList.add("active");
+                updateStatsDisplay(); // Make sure stats are up to date when shown
+            }
+        });
 
-// Bottom navigation buttons with toggle functionality
-document.getElementById("homeButton").addEventListener("click", function() {
-    const homeSection = document.getElementById("homeSection");
-    if (homeSection.classList.contains("active")) {
-        // If already active, just close it
-        homeSection.classList.remove("active");
-    } else {
-        // Otherwise hide all and open this one
-        hideAllSections();
-        homeSection.classList.add("active");
-    }
-});
+        // Bottom navigation buttons with toggle functionality
+        document.getElementById("homeButton").addEventListener("click", function() {
+            const homeSection = document.getElementById("homeSection");
+            if (homeSection.classList.contains("active")) {
+                // If already active, just close it
+                homeSection.classList.remove("active");
+            } else {
+                // Otherwise hide all and open this one
+                hideAllSections();
+                homeSection.classList.add("active");
+            }
+        });
 
-document.getElementById("aboutButton").addEventListener("click", function() {
-    const aboutSection = document.getElementById("aboutSection");
-    if (aboutSection.classList.contains("active")) {
-        // If already active, just close it
-        aboutSection.classList.remove("active");
-    } else {
-        // Otherwise hide all and open this one
-        hideAllSections();
-        aboutSection.classList.add("active");
-    }
-});
+        document.getElementById("aboutButton").addEventListener("click", function() {
+            const aboutSection = document.getElementById("aboutSection");
+            if (aboutSection.classList.contains("active")) {
+                // If already active, just close it
+                aboutSection.classList.remove("active");
+            } else {
+                // Otherwise hide all and open this one
+                hideAllSections();
+                aboutSection.classList.add("active");
+            }
+        });
 
-document.getElementById("contactButton").addEventListener("click", function() {
-    const contactSection = document.getElementById("contactSection");
-    if (contactSection.classList.contains("active")) {
-        // If already active, just close it
-        contactSection.classList.remove("active");
-    } else {
-        // Otherwise hide all and open this one
-        hideAllSections();
-        contactSection.classList.add("active");
-    }
-});
+        document.getElementById("contactButton").addEventListener("click", function() {
+            const contactSection = document.getElementById("contactSection");
+            if (contactSection.classList.contains("active")) {
+                // If already active, just close it
+                contactSection.classList.remove("active");
+            } else {
+                // Otherwise hide all and open this one
+                hideAllSections();
+                contactSection.classList.add("active");
+            }
+        });
 
-// Helper function to hide all sections (keep this the same)
-function hideAllSections() {
-    document.querySelectorAll(".more-games-section, .stats-section, .info-section").forEach(section => {
-        section.classList.remove("active");
-    });
-}
+        // Helper function to hide all sections
+        function hideAllSections() {
+            document.querySelectorAll(".more-games-section, .stats-section, .info-section").forEach(section => {
+                section.classList.remove("active");
+            });
+        }
         
         // Function to update stats display
         function updateStatsDisplay() {
