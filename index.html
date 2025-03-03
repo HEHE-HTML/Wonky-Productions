@@ -3,737 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII Dungeon Crawler</title>
+    <title>Wonky Productions</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Varela Round', sans-serif;
+        }
         body {
-            background-color: #222;
-            color: #ccc;
-            font-family: monospace;
+            background: linear-gradient(135deg, #f3f3f3, #dcdcdc);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 60px;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
         }
-        #game-container {
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: scrollGrid 10s linear infinite;
+            z-index: -1;
+        }
+        .game-button:hover, .game-button-featured:hover {
+            transform: scale(1.04);
+        }
+        @keyframes scrollGrid {
+            from { background-position: 0 0; }
+            to { background-position: 0px 200px; }
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            color: #000000;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-shadow: 0px 4px 0px #888;
+            animation: sway 3s infinite ease-in-out;
+            transition: transform 0.2s ease-in-out;
+            font-family: 'Varela Round', sans-serif;
+        }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-deg1); }
+            50% { transform: rotate(1deg); }
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 800px;
+        }
+        .button-container {
             display: flex;
             gap: 20px;
-            margin-top: 20px;
         }
-        .player-red {
-            color: white;
-            font-family: monospace;
-            
-        }
-        #game {
-            background-color: #111;
-            color: #979797;
-            padding: 10px;
-            white-space: pre;
-            font-size: 16px;
-            line-height: 1;
-            border: 1px solid #444;
-            width: 600px;
-            height: 400px;
-            overflow: hidden;
-            
-        }
-        .enemy-green {
-            color: green;
-        }
-        #stats {
-            background-color: #111;
-            padding: 10px;
-            border: 1px solid #444;
-            width: 200px;
-        }
-        #log {
-            background-color: #111;
-            color: #eee;
-            padding: 10px;
-            border: 1px solid #444;
-            width: 830px;
-            height: 100px;
-            margin-top: 20px;
-            overflow-y: scroll;
-        }
-        #controls {
-            margin-top: 20px;
-            background-color: #111;
-            padding: 10px;
-            border: 1px solid #444;
-            width: 830px;
-        }
-        h1, h2 {
-            color: #ff8800;
-        }
-        .health {
-            color: #ff6666;
-        }
-        .attack {
-            color: #ffcc00;
-        }
-        .defense {
-            color: #66ccff;
-        }
-        button {
-            background-color: #333;
-            color: #eee;
-            border: 1px solid #666;
-            padding: 5px 10px;
-            margin: 5px;
+        .juicy-button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.8);
             cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            color: black;
         }
-        button:hover {
-            background-color: #444;
+        .juicy-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
         }
-        .gold-yellow {
-    color: yellow;
-}
+        .lower-bar {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .lower-bar div {
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+        }
+        .lower-bar div:hover {
+            background: #555;
+        }
+        
+        /* New Game Section */
+        .more-games-section {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .more-games-section.active {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            justify-content: center;
+            overflow-y: auto;
+            max-height: 70vh; /* adjust as needed */
+        }
+        .game-button, .game-button-featured {
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: #ddd;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        /* Regular game button style */
+        .game-button {
+            outline: 4px solid rgba(204, 204, 204, 0.8);
+        }
+        
+        /* Featured game button style with more subtle gold outline */
+        .game-button-featured {
+            outline: 4px solid #ffea2b99; /* More subtle gold outline */
+            box-shadow: 0 0 15px rgba(255, 251, 28, 0.7); /* Softer gold glow effect */
+            position: relative;
+        }
 
-.potion-red {
-    color: red;
-}
-.stairs-white {
-    color: white;
-}
+        /* Featured label */
+        .featured-label {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: rgba(218, 165, 32, 0.8);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .game-button img, .game-button-featured img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+        .game-button .game-title, .game-button-featured .game-title {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px; /* Improved letter spacing */
+            padding: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        
+        /* Stats Section Styles */
+        .stats-section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: left;
+        }
+        .stats-section.active {
+            display: block;
+        }
+        .stats-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+        .stat-item {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #444;
+        }
+        .stat-game-clicks {
+            margin-top: 20px;
+        }
+        
+        /* Info Sections Styles */
+        .info-section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .info-section.active {
+            display: block;
+        }
+        .info-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+        .info-content {
+            line-height: 1.6;
+            color: #444;
+        }
     </style>
 </head>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 <body>
-    <h1>ASCII Dungeon Crawler</h1>
-    
-    <div id="game-container">
-        <div id="game"></div>
-        <div id="stats">
-            <h2>Player Stats</h2>
-            <p>Level: <span id="level">1</span></p>
-            <p>XP: <span id="xp">0</span>/<span id="next-level">10</span></p>
-            <p class="health">Health: <span id="health">20</span>/<span id="max-health">20</span></p>
-            <p class="attack">Attack: <span id="attack">3</span></p>
-            <p class="defense">Defense: <span id="defense">1</span></p>
-            <p>Gold: <span id="gold">0</span></p>
-            <p>Potions: <span id="potions">1</span></p>
-            <p>Floor: <span id="floor">1</span></p>
+    <div class="grid-bg"></div>
+    <div class="main-content">
+        <h1>Wonky Productions</h1>
+        <div class="button-container">
+            <button class="juicy-button" id="moreGamesButton">Games</button>
+            <button class="juicy-button" id="statsButton">Stats</button>
         </div>
     </div>
-    
-    <div id="log"></div>
-    
-    <div id="controls">
-        <p>Move: Arrow Keys or WASD | Drink Potion: P | New Game: R</p>
-        <button id="move-up">Up (W)</button>
-        <button id="move-left">Left (A)</button>
-        <button id="move-down">Down (S)</button>
-        <button id="move-right">Right (D)</button>
-        <button id="drink-potion">Drink Potion (P)</button>
-        <button id="new-game">New Game (R)</button>
+
+    <div class="more-games-section" id="moreGamesSection">
+        <div class="game-button-featured" data-id="0">
+            <a href="https://hehe-html.github.io/Chess-Game/" target="_blank">
+            <div class="featured-label">Featured</div>
+            <img src="thumbnail1alt.png" alt="Game 1" />
+            <div class="game-title">Checkers</div>
+            </a>
+        </div>
+        <div class="game-button-featured" data-id="1">
+            <a href="https://hehe-html.github.io/Ascii-Crawler/" target="_blank">
+            <div class="featured-label">Featured</div>
+            <img src="thumbnail2.jpg" alt="Game 2" />
+            <div class="game-title">Ascii Crawl</div>
+            </a>
+        </div>
+        <div class="game-button-featured" data-id="2">
+            <a href="https://sprig.hackclub.com/gallery/Push-Peril" target="_blank">
+            <div class="featured-label">Featured</div>
+            <img src="thumbnail3.png" alt="Game 3" />
+            <div class="game-title">Push & Peril</div>
+            </a>
+        </div>
+        <div class="game-button-featured" data-id="3">
+            <a href="https://hydrokube.github.io/gainz/" target="_blank">
+            <div class="featured-label">Featured</div>
+            <img src="thumbnail4.jpg" alt="Game 4" />
+            <div class="game-title">Idle Gainz</div>
+            </a>
+        </div>
+        <div class="game-button" data-id="other">
+            <img src="placeholder.png" alt="Other Game" />
+            <div class="game-title">Coming Soon</div>
+        </div>
+        <div class="game-button" data-id="other">
+            <img src="placeholder.png" alt="Other Game" />
+            <div class="game-title">Coming Soon</div>
+        </div>
+        <div class="game-button" data-id="other">
+            <img src="placeholder.png" alt="Other Game" />
+            <div class="game-title">Coming Soon</div>
+        </div>
+        <div class="game-button" data-id="other">
+            <img src="placeholder.png" alt="Other Game" />
+            <div class="game-title">Coming Soon</div>
+        </div>
+
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section" id="statsSection">
+        <h2 class="stats-title">Website Statistics</h2>
+        <div class="stat-item">
+            <span>Site Visits:</span>
+            <span class="stat-value" id="visitStat">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Total Time Spent:</span>
+            <span class="stat-value" id="timeStat">0 seconds</span>
+        </div>
+        <div class="stat-item">
+            <span>Current Session Time:</span>
+            <span class="stat-value" id="sessionTimeStat">0 seconds</span>
+        </div>
+        <div class="stat-game-clicks">
+            <div class="stat-item">
+                <span>Checkers Plays:</span>
+                <span class="stat-value" id="gameClicksStat_0">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Ascii Crawl Plays:</span>
+                <span class="stat-value" id="gameClicksStat_1">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Push & Peril Plays:</span>
+                <span class="stat-value" id="gameClicksStat_2">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Idle Gainz Plays:</span>
+                <span class="stat-value" id="gameClicksStat_3">0</span>
+            </div>
+            <div class="stat-item">
+                <span>All Other Game Plays:</span>
+                <span class="stat-value" id="gameClicksStat_other">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Info Section -->
+    <div class="info-section" id="homeSection">
+        <h2 class="info-title">Welcome to Wonky Productions</h2>
+        <div class="info-content">
+            <p>Wonky Productions is a small indie game studio dedicated to creating fun and unique gaming experiences. Founded in 2023, we strive to make games that are both entertaining and easy to make!</p>
+            <p>Our games range from casual puzzle games to more complex strategy games, all with our signature wonky style and quirky humor.</p>
+            <p>Explore our collection and find your next favorite game!</p>
+        </div>
+    </div>
+
+    <!-- About Info Section -->
+    <div class="info-section" id="aboutSection">
+        <h2 class="info-title">About Me</h2>
+        <div class="info-content">
+            <p>Hello! I'm the creator behind Wonky Productions. I've been passionate about game development since I was a kid, and I started programming my first games when I was just 9 years old.</p>
+            <p>I have enjoyed creating games for a long time, and have found both graphic design and programming to be enticing and satisfactory.</p>
+            <p>When I'm not developing games, you can find me reading, playing with friends, or even pursuing other creative interests!</p>
+        </div>
+    </div>
+
+    <!-- Contact Info Section -->
+    <div class="info-section" id="contactSection">
+        <h2 class="info-title">Contact Us</h2>
+        <div class="info-content">
+            <p>Have questions, suggestions, or just want to say hello? We'd love to hear from you!</p>
+            <p>
+                                                                 
+            </p>
+            <p>Email: playwonkygames@gmail.com</p>
+            <p>Itch: https://play-this-game.itch.io/</p>
+            <p>We try to respond to all inquiries within 48 hours. For business inquiries, please use the email above with "Business" in the subject line! </p>
+        </div>
+    </div>
+
+    <div class="lower-bar">
+        <div id="homeButton">Home</div>
+        <div id="aboutButton">About</div>
+        <div id="contactButton">Contact</div>
     </div>
 
     <script>
-        // Game constants
-        const GRID_WIDTH = 63;
-        const GRID_HEIGHT = 25;
-        const MAX_ROOMS = 9;
-        const MIN_ROOM_SIZE = 3;
-        const MAX_ROOM_SIZE = 8;
-        
-        // Game entities
-        const EMPTY = ' ';
-        const WALL = 'X';
-        const PLAYER = '★';
-        const STAIRS = '>';
-        const ENEMY_TYPES = ['g', 'o', 'T', 'D'];
-        const ENEMY_NAMES = {
-            'g': 'Goblin',
-            'o': 'Orc',
-            'T': 'Troll',
-            'D': 'Dragon'
-        };
-        const ENEMY_STATS = {
-            'g': { health: 5, attack: 2, defense: 0, xp: 2, gold: 1 },
-            'o': { health: 10, attack: 3, defense: 1, xp: 5, gold: 3 },
-            'T': { health: 20, attack: 5, defense: 2, xp: 10, gold: 7 },
-            'D': { health: 40, attack: 8, defense: 4, xp: 20, gold: 15 }
-        };
-        const POTION = 'p';
-        const GOLD = '$';
-        
-        // Game state
-        let grid = [];
-        let player = {
-            x: 0,
-            y: 0,
-            health: 20,
-            maxHealth: 20,
-            attack: 3,
-            defense: 1,
-            gold: 0,
-            potions: 1,
-            level: 1,
-            xp: 0,
-            nextLevel: 10,
-            floor: 1
-        };
-        let enemies = [];
-        let items = [];
-        let rooms = [];
-        let gameOver = false;
-        
-        // DOM elements
-        const gameElement = document.getElementById('game');
-        const logElement = document.getElementById('log');
-        const healthElement = document.getElementById('health');
-        const maxHealthElement = document.getElementById('max-health');
-        const attackElement = document.getElementById('attack');
-        const defenseElement = document.getElementById('defense');
-        const goldElement = document.getElementById('gold');
-        const potionsElement = document.getElementById('potions');
-        const levelElement = document.getElementById('level');
-        const xpElement = document.getElementById('xp');
-        const nextLevelElement = document.getElementById('next-level');
-        const floorElement = document.getElementById('floor');
-        
-        // Initialize the game
-        function initGame() {
-            grid = [];
-            enemies = [];
-            items = [];
-            rooms = [];
-            gameOver = false;
-            
-            // Reset player stats except for progression between floors
-            if (player.floor === 1) {
-                player = {
-                    x: 0,
-                    y: 0,
-                    health: 20,
-                    maxHealth: 20,
-                    attack: 3,
-                    defense: 1,
-                    gold: 0,
-                    potions: 1,
-                    level: 1,
-                    xp: 0,
-                    nextLevel: 10,
-                    floor: 1
-                };
-            } else {
-                player.health = player.maxHealth;
-                player.potions += 1;
-            }
-            
-            // Initialize grid with walls
-            for (let y = 0; y < GRID_HEIGHT; y++) {
-                const row = [];
-                for (let x = 0; x < GRID_WIDTH; x++) {
-                    row.push(WALL);
-                }
-                grid.push(row);
-            }
-            
-            // Generate rooms
-            generateRooms();
-            
-            // Connect rooms
-            connectRooms();
-            
-            // Place player in the first room
-            if (rooms.length > 0) {
-                const startRoom = rooms[0];
-                player.x = Math.floor(startRoom.x + startRoom.width / 2);
-                player.y = Math.floor(startRoom.y + startRoom.height / 2);
-                grid[player.y][player.x] = PLAYER;
-            }
-            
-            // Place stairs in the last room
-            if (rooms.length > 0) {
-                const lastRoom = rooms[rooms.length - 1];
-                const stairsX = Math.floor(lastRoom.x + lastRoom.width / 2);
-                const stairsY = Math.floor(lastRoom.y + lastRoom.height / 2);
-                grid[stairsY][stairsX] = STAIRS;
-            }
-            
-            // Place enemies
-            placeEnemies();
-            
-            // Place items
-            placeItems();
-            
-            // Update UI
-            updateGame();
-            updateStats();
-            
-            // Log message
-            logMessage(`You enter floor ${player.floor} of the dungeon...`);
+        // Function to get and update local storage values
+        function getStat(key) {
+            return parseInt(localStorage.getItem(key)) || 0;
         }
-        
-        // Generate random rooms
-        function generateRooms() {
-            for (let i = 0; i < MAX_ROOMS; i++) {
-                const width = Math.floor(Math.random() * (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1)) + MIN_ROOM_SIZE;
-                const height = Math.floor(Math.random() * (MAX_ROOM_SIZE - MIN_ROOM_SIZE + 1)) + MIN_ROOM_SIZE;
-                const x = Math.floor(Math.random() * (GRID_WIDTH - width - 2)) + 1;
-                const y = Math.floor(Math.random() * (GRID_HEIGHT - height - 2)) + 1;
-                
-                // Check if the room overlaps with existing rooms
-                let overlaps = false;
-                for (const room of rooms) {
-                    if (
-                        x < room.x + room.width + 1 &&
-                        x + width + 1 > room.x &&
-                        y < room.y + room.height + 1 &&
-                        y + height + 1 > room.y
-                    ) {
-                        overlaps = true;
-                        break;
-                    }
-                }
-                
-                if (!overlaps) {
-                    // Create room
-                    for (let ry = y; ry < y + height; ry++) {
-                        for (let rx = x; rx < x + width; rx++) {
-                            grid[ry][rx] = EMPTY;
-                        }
-                    }
-                    
-                    rooms.push({ x, y, width, height });
-                }
-            }
+        function setStat(key, value) {
+            localStorage.setItem(key, value);
         }
+    
+        // Track Visits
+        let visits = getStat("siteVisits") + 1;
+        setStat("siteVisits", visits);
+    
+        // Track Time Spent
+        let sessionStartTime = Date.now();
+        let currentSessionTime = 0;
         
-        // Connect rooms with corridors
-        function connectRooms() {
-            for (let i = 0; i < rooms.length - 1; i++) {
-                const startRoom = rooms[i];
-                const endRoom = rooms[i + 1];
-                
-                const startX = Math.floor(startRoom.x + startRoom.width / 2);
-                const startY = Math.floor(startRoom.y + startRoom.height / 2);
-                const endX = Math.floor(endRoom.x + endRoom.width / 2);
-                const endY = Math.floor(endRoom.y + endRoom.height / 2);
-                
-                // Randomly decide if we go horizontal first or vertical first
-                if (Math.random() < 0.5) {
-                    // Horizontal first
-                    createHorizontalCorridor(startX, endX, startY);
-                    createVerticalCorridor(startY, endY, endX);
-                } else {
-                    // Vertical first
-                    createVerticalCorridor(startY, endY, startX);
-                    createHorizontalCorridor(startX, endX, endY);
-                }
-            }
-        }
-        
-        // Create horizontal corridor
-        function createHorizontalCorridor(startX, endX, y) {
-            const start = Math.min(startX, endX);
-            const end = Math.max(startX, endX);
-            
-            for (let x = start; x <= end; x++) {
-                grid[y][x] = EMPTY;
-            }
-        }
-        
-        // Create vertical corridor
-        function createVerticalCorridor(startY, endY, x) {
-            const start = Math.min(startY, endY);
-            const end = Math.max(startY, endY);
-            
-            for (let y = start; y <= end; y++) {
-                grid[y][x] = EMPTY;
-            }
-        }
-        
-        // Place enemies in the dungeon
-        function placeEnemies() {
-            const numEnemies = 5 + Math.floor(player.floor * 1.5);
-            
-            for (let i = 0; i < numEnemies; i++) {
-                let x, y;
-                let attempts = 0;
-                
-                do {
-                    const roomIndex = Math.floor(Math.random() * rooms.length);
-                    const room = rooms[roomIndex];
-                    
-                    x = Math.floor(Math.random() * (room.width - 2)) + room.x + 1;
-                    y = Math.floor(Math.random() * (room.height - 2)) + room.y + 1;
-                    
-                    attempts++;
-                } while ((grid[y][x] !== EMPTY || isPlayerAdjacent(x, y)) && attempts < 100);
-                
-                if (attempts < 100) {
-                    // Determine enemy type based on dungeon floor
-                    let enemyPool;
-                    if (player.floor <= 2) {
-                        enemyPool = [ENEMY_TYPES[0], ENEMY_TYPES[0], ENEMY_TYPES[1]];
-                    } else if (player.floor <= 4) {
-                        enemyPool = [ENEMY_TYPES[0], ENEMY_TYPES[1], ENEMY_TYPES[1], ENEMY_TYPES[2]];
-                    } else {
-                        enemyPool = [ENEMY_TYPES[1], ENEMY_TYPES[2], ENEMY_TYPES[2], ENEMY_TYPES[3]];
-                    }
-                    
-                    const enemyType = enemyPool[Math.floor(Math.random() * enemyPool.length)];
-                    
-                    // Scale enemies based on floor
-                    const baseStats = ENEMY_STATS[enemyType];
-                    const floorMultiplier = 1 + (player.floor - 1) * 0.3;
-                    
-                    const enemy = {
-                        x, 
-                        y,
-                        type: enemyType,
-                        health: Math.floor(baseStats.health * floorMultiplier),
-                        maxHealth: Math.floor(baseStats.health * floorMultiplier),
-                        attack: Math.floor(baseStats.attack * floorMultiplier),
-                        defense: Math.floor(baseStats.defense * floorMultiplier),
-                        xp: Math.floor(baseStats.xp * floorMultiplier),
-                        gold: Math.floor(baseStats.gold * floorMultiplier)
-                    };
-                    
-                    enemies.push(enemy);
-                    grid[y][x] = enemyType;
-                }
-            }
-        }
-        
-        // Check if the player is adjacent to a position
-        function isPlayerAdjacent(x, y) {
-            return (
-                (Math.abs(player.x - x) <= 1 && Math.abs(player.y - y) <= 1)
-            );
-        }
-        
-        // Place items in the dungeon
-        function placeItems() {
-            // Place potions
-            const numPotions = 2 + Math.floor(player.floor * 0.5);
-            placeItem(POTION, numPotions);
-            
-            // Place gold
-            const numGold = 4 + Math.floor(player.floor * 0.8);
-            placeItem(GOLD, numGold);
-        }
-        
-        // Place a specific item in the dungeon
-        function placeItem(itemType, count) {
-            for (let i = 0; i < count; i++) {
-                let x, y;
-                let attempts = 0;
-                
-                do {
-                    const roomIndex = Math.floor(Math.random() * rooms.length);
-                    const room = rooms[roomIndex];
-                    
-                    x = Math.floor(Math.random() * (room.width - 2)) + room.x + 1;
-                    y = Math.floor(Math.random() * (room.height - 2)) + room.y + 1;
-                    
-                    attempts++;
-                } while (grid[y][x] !== EMPTY && attempts < 100);
-                
-                if (attempts < 100) {
-                    grid[y][x] = itemType;
-                    items.push({ x, y, type: itemType });
-                }
-            }
-        }
-        
-        // Handle player movement
-        function movePlayer(dx, dy) {
-            if (gameOver) return;
-            
-            const newX = player.x + dx;
-            const newY = player.y + dy;
-            
-            // Check if the move is valid (not a wall)
-            if (newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT) {
-                const targetCell = grid[newY][newX];
-                
-                if (targetCell === EMPTY) {
-                    // Move to empty space
-                    grid[player.y][player.x] = EMPTY;
-                    player.x = newX;
-                    player.y = newY;
-                    grid[player.y][player.x] = PLAYER;
-                    
-                    // Move enemies
-                    moveEnemies();
-                } else if (targetCell === STAIRS) {
-                    // Go to next floor
-                    player.floor++;
-                    logMessage(`You descended to floor ${player.floor}!`);
-                    initGame();
-                    return;
-                } else if (targetCell === POTION) {
-                    // Pick up potion
-                    grid[newY][newX] = EMPTY;
-                    player.potions++;
-                    removeItem(newX, newY);
-                    logMessage("You found a health potion!");
-                    updateStats();
-                    
-                    // Move enemies
-                    moveEnemies();
-                } else if (targetCell === GOLD) {
-                    // Pick up gold
-                    grid[newY][newX] = EMPTY;
-                    const goldAmount = Math.floor(Math.random() * 5) + 1 + Math.floor(player.floor * 0.5);
-                    player.gold += goldAmount;
-                    removeItem(newX, newY);
-                    logMessage(`You found ${goldAmount} gold!`);
-                    updateStats();
-                    
-                    // Move enemies
-                    moveEnemies();
-                } else if (ENEMY_TYPES.includes(targetCell)) {
-                    // Attack enemy
-                    attackEnemy(newX, newY);
-                }
-            }
-            
-            updateGame();
-        }
-        
-        // Remove an item from the items array
-        function removeItem(x, y) {
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].x === x && items[i].y === y) {
-                    items.splice(i, 1);
-                    break;
-                }
-            }
-        }
-        
-        // Attack an enemy
-        function attackEnemy(x, y) {
-            const enemyIndex = enemies.findIndex(e => e.x === x && e.y === y);
-            
-            if (enemyIndex !== -1) {
-                const enemy = enemies[enemyIndex];
-                
-                // Calculate damage
-                let damage = Math.max(1, player.attack - enemy.defense);
-                
-                // Apply damage
-                enemy.health -= damage;
-                
-                logMessage(`You hit the ${ENEMY_NAMES[enemy.type]} for ${damage} damage!`);
-                
-                // Check if enemy is defeated
-                if (enemy.health <= 0) {
-                    logMessage(`You defeated the ${ENEMY_NAMES[enemy.type]}!`);
-                    logMessage(`You gained ${enemy.xp} XP and ${enemy.gold} gold!`);
-                    
-                    player.xp += enemy.xp;
-                    player.gold += enemy.gold;
-                    
-                    // Check for level up
-                    checkLevelUp();
-                    
-                    // Remove enemy
-                    grid[y][x] = EMPTY;
-                    enemies.splice(enemyIndex, 1);
-                } else {
-                    // Enemy attacks back
-                    enemyAttack(enemy);
-                }
-                
-                updateStats();
-            }
-        }
-        
-        // Enemy attacks the player
-        function enemyAttack(enemy) {
-            let damage = Math.max(1, enemy.attack - player.defense);
-            
-            player.health -= damage;
-            
-            logMessage(`The ${ENEMY_NAMES[enemy.type]} hits you for ${damage} damage!`);
-            
-            // Check if player is defeated
-            if (player.health <= 0) {
-                player.health = 0;
-                gameOver = true;
-                logMessage("You have been defeated! Press R to start a new game.");
-            }
-            
-            updateStats();
-        }
-        
-        // Move enemies
-        function moveEnemies() {
-            for (const enemy of enemies) {
-                if (Math.random() < 0.6) {
-                    // Calculate distance to player
-                    const dx = player.x - enemy.x;
-                    const dy = player.y - enemy.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    // Only move if enemy is close enough to the player
-                    if (distance < 6) {
-                        // Determine direction towards player
-                        let newX = enemy.x;
-                        let newY = enemy.y;
-                        
-                        if (Math.abs(dx) > Math.abs(dy)) {
-                            // Move horizontally
-                            newX += dx > 0 ? 1 : -1;
-                        } else {
-                            // Move vertically
-                            newY += dy > 0 ? 1 : -1;
-                        }
-                        
-                        // Check if move is valid
-                        if (newX >= 0 && newX < GRID_WIDTH && newY >= 0 && newY < GRID_HEIGHT) {
-                            const targetCell = grid[newY][newX];
-                            
-                            if (targetCell === EMPTY) {
-                                // Move enemy
-                                grid[enemy.y][enemy.x] = EMPTY;
-                                grid[newY][newX] = enemy.type;
-                                enemy.x = newX;
-                                enemy.y = newY;
-                            } else if (targetCell === PLAYER) {
-                                // Attack player
-                                enemyAttack(enemy);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Check if player levels up
-        function checkLevelUp() {
-            if (player.xp >= player.nextLevel) {
-                player.level++;
-                player.xp -= player.nextLevel;
-                player.nextLevel = Math.floor(player.nextLevel * 1.5);
-                
-                // Increase stats
-                player.maxHealth += 5;
-                player.health = player.maxHealth;
-                player.attack += 1;
-                player.defense += Math.floor(player.level % 2);
-                
-                logMessage(`Level up! You are now level ${player.level}!`);
-                updateStats();
-            }
-        }
-        
-        // Use a potion
-        function usePotion() {
-            if (gameOver) return;
-            
-            if (player.potions > 0) {
-                const healAmount = 10;
-                player.health = Math.min(player.health + healAmount, player.maxHealth);
-                player.potions--;
-                
-                logMessage(`You drink a potion and heal ${healAmount} health!`);
-                updateStats();
-                moveEnemies();
-                updateGame();
-            } else {
-                logMessage("You don't have any potions!");
-            }
-        }
-        
-        // Update the game display
-        function updateGame() {
-    let display = '';
-
-    for (let y = 0; y < GRID_HEIGHT; y++) {
-        for (let x = 0; x < GRID_WIDTH; x++) {
-            if (grid[y][x] === PLAYER) {
-                display += '<span class="player-red" >+</span>';
-            } else if (ENEMY_TYPES.includes(grid[y][x])) {
-                display += `<span class="enemy-green">${grid[y][x]}</span>`;
-            } else if (grid[y][x] === GOLD) {
-                display += `<span class="gold-yellow">${grid[y][x]}</span>`;
-            } else if (grid[y][x] === POTION) {
-                display += `<span class="potion-red">${grid[y][x]}</span>`;
-            } else if (grid[y][x] === STAIRS) {
-                display += `<span class="stairs-white">${grid[y][x]}</span>`;
-            }else {
-                display += grid[y][x];
-            }
-        }
-        display += '\n';
+        window.addEventListener("beforeunload", function () {
+            let timeSpent = getStat("totalTimeSpent") + Math.floor((Date.now() - sessionStartTime) / 1000);
+            setStat("totalTimeSpent", timeSpent);
+        });
+    
+        // Track Game Clicks for both regular and featured games
+        document.querySelectorAll(".game-button, .game-button-featured").forEach((button) => {
+            button.addEventListener("click", function () {
+                let gameId = this.getAttribute("data-id");
+                let gameKey = "gameClicks_" + gameId;
+                setStat(gameKey, getStat(gameKey) + 1);
+                updateStatsDisplay(); // Update the display when a game is clicked
+            });
+        });
+    
+        // Toggle sections
+// Toggle sections with close functionality
+document.getElementById("moreGamesButton").addEventListener("click", function() {
+    const gamesSection = document.getElementById("moreGamesSection");
+    if (gamesSection.classList.contains("active")) {
+        // If already active, just close it
+        gamesSection.classList.remove("active");
+    } else {
+        // Otherwise hide all and open this one
+        hideAllSections();
+        gamesSection.classList.add("active");
     }
-    gameElement.innerHTML = display;
+});
+
+document.getElementById("statsButton").addEventListener("click", function() {
+    const statsSection = document.getElementById("statsSection");
+    if (statsSection.classList.contains("active")) {
+        // If already active, just close it
+        statsSection.classList.remove("active");
+    } else {
+        // Otherwise hide all and open this one
+        hideAllSections();
+        statsSection.classList.add("active");
+        updateStatsDisplay(); // Make sure stats are up to date when shown
+    }
+});
+
+// Bottom navigation buttons with toggle functionality
+document.getElementById("homeButton").addEventListener("click", function() {
+    const homeSection = document.getElementById("homeSection");
+    if (homeSection.classList.contains("active")) {
+        // If already active, just close it
+        homeSection.classList.remove("active");
+    } else {
+        // Otherwise hide all and open this one
+        hideAllSections();
+        homeSection.classList.add("active");
+    }
+});
+
+document.getElementById("aboutButton").addEventListener("click", function() {
+    const aboutSection = document.getElementById("aboutSection");
+    if (aboutSection.classList.contains("active")) {
+        // If already active, just close it
+        aboutSection.classList.remove("active");
+    } else {
+        // Otherwise hide all and open this one
+        hideAllSections();
+        aboutSection.classList.add("active");
+    }
+});
+
+document.getElementById("contactButton").addEventListener("click", function() {
+    const contactSection = document.getElementById("contactSection");
+    if (contactSection.classList.contains("active")) {
+        // If already active, just close it
+        contactSection.classList.remove("active");
+    } else {
+        // Otherwise hide all and open this one
+        hideAllSections();
+        contactSection.classList.add("active");
+    }
+});
+
+// Helper function to hide all sections (keep this the same)
+function hideAllSections() {
+    document.querySelectorAll(".more-games-section, .stats-section, .info-section").forEach(section => {
+        section.classList.remove("active");
+    });
 }
         
-        // Update player stats
-        function updateStats() {
-            healthElement.textContent = player.health;
-            maxHealthElement.textContent = player.maxHealth;
-            attackElement.textContent = player.attack;
-            defenseElement.textContent = player.defense;
-            goldElement.textContent = player.gold;
-            potionsElement.textContent = player.potions;
-            levelElement.textContent = player.level;
-            xpElement.textContent = player.xp;
-            nextLevelElement.textContent = player.nextLevel;
-            floorElement.textContent = player.floor;
-        }
-        
-        // Log a message
-        function logMessage(message) {
-            const messageElement = document.createElement('div');
-            messageElement.textContent = message;
-            logElement.appendChild(messageElement);
-            logElement.scrollTop = logElement.scrollHeight;
-        }
-        
-        // Event listeners for keyboard and buttons
-        document.addEventListener('keydown', (e) => {
-            switch (e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    movePlayer(0, -1);
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    movePlayer(0, 1);
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    movePlayer(-1, 0);
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    movePlayer(1, 0);
-                    break;
-                case 'p':
-                case 'P':
-                    usePotion();
-                    break;
-                case 'r':
-                case 'R':
-                    player.floor = 1;
-                    initGame();
-                    break;
+        // Function to update stats display
+        function updateStatsDisplay() {
+            // Update site visits
+            document.getElementById("visitStat").textContent = getStat("siteVisits");
+            
+            // Update total time spent
+            document.getElementById("timeStat").textContent = getStat("totalTimeSpent") + " seconds";
+            
+            // Update current session time
+            currentSessionTime = Math.floor((Date.now() - sessionStartTime) / 1000);
+            document.getElementById("sessionTimeStat").textContent = currentSessionTime + " seconds";
+            
+            // Update game clicks for the first 4 games
+            for (let i = 0; i < 4; i++) {
+                let gameKey = "gameClicks_" + i;
+                document.getElementById("gameClicksStat_" + i).textContent = getStat(gameKey);
             }
-        });
+            
+            // Update other game clicks
+            document.getElementById("gameClicksStat_other").textContent = getStat("gameClicks_other");
+        }
         
-        document.getElementById('move-up').addEventListener('click', () => movePlayer(0, -1));
-        document.getElementById('move-down').addEventListener('click', () => movePlayer(0, 1));
-        document.getElementById('move-left').addEventListener('click', () => movePlayer(-1, 0));
-        document.getElementById('move-right').addEventListener('click', () => movePlayer(1, 0));
-        document.getElementById('drink-potion').addEventListener('click', usePotion);
-        document.getElementById('new-game').addEventListener('click', () => {
-            player.floor = 1;
-            initGame();
-        });
+        // Set up interval to update stats dynamically
+        setInterval(updateStatsDisplay, 1000); // Update every second
         
-        // Start the game
-        initGame();
+        // Initial display
+        updateStatsDisplay();
     </script>
 </body>
 </html>
