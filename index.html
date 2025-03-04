@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonky Productions</title>
     <style>
+        
         * {
             margin: 0;
             padding: 0;
@@ -17,17 +18,19 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 40px 0;
         }
         .grid-bg {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+            background-size: 25px 25px;
             animation: scrollGrid 10s linear infinite;
             z-index: -1;
         }
@@ -48,7 +51,7 @@
             font-family: 'Varela Round', sans-serif;
         }
         @keyframes sway {
-            0%, 100% { transform: rotate(-deg1); }
+            0%, 100% { transform: rotate(-1deg); }
             50% { transform: rotate(1deg); }
         }
         .main-content {
@@ -63,76 +66,76 @@
             gap: 20px;
         }
         .juicy-button {
-    padding: 15px 30px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 50px;
-    background: linear-gradient(145deg, #ffffff, #e0e0e0);
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    text-decoration: none;
-    color: black;
-    position: relative;
-    overflow: hidden; /* Needed for shine effect */
-}
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), -5px -5px 15px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            color: black;
+            position: relative;
+            overflow: hidden; /* Needed for shine effect */
+        }
 
-    .juicy-button:hover {
-        transform: scale(1.1);
-        background: linear-gradient(145deg, #e0e0e0, #ffffff);
-    }
+        .juicy-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
+        }
 
-    /* Shine Effect */
-    .juicy-button::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -50%;
-        width: 150%;
-        height: 100%;
-        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
-        transform: skewX(-45deg) translateX(0);
-        transition: transform 0.5s ease-in-out;
-    }
+        /* Shine Effect */
+        .juicy-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-45deg) translateX(0);
+            transition: transform 0.5s ease-in-out;
+        }
 
-    .juicy-button:hover::before {
-        transform: skewX(-45deg) translateX(200%);
-    }
+        .juicy-button:hover::before {
+            transform: skewX(-45deg) translateX(200%);
+        }
 
-    /* Click Effect */
-    .juicy-button:active {
-        transform: scale(0.95);
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.8);
-    }
-    .lower-bar {
-    position: absolute;
-    bottom: 20px;
-    display: flex;
-    background: #333;
-    border-radius: 50px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: bottom 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added transition for box-shadow */
-}
+        /* Click Effect */
+        .juicy-button:active {
+            transform: scale(0.95);
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.8);
+        }
+        .lower-bar {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            background: #333;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: bottom 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added transition for box-shadow */
+        }
 
-.lower-bar:hover {
-    bottom: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Increased shadow on hover */
-}
+        .lower-bar:hover {
+            bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Increased shadow on hover */
+        }
 
-.lower-bar div {
-    padding: 12px 25px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
+        .lower-bar div {
+            padding: 12px 25px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
 
-.lower-bar div:hover {
-    background: #555;
-}
-        
+        .lower-bar div:hover {
+            background: #555;
+        }
+            
         /* New Game Section */
         .more-games-section {
             display: none;
@@ -152,74 +155,102 @@
             width: 200px;
         }
         
-        .game-button, .game-button-featured {
-            width: 200px;
-            height: 200px;
-            border-radius: 10px;
-            background-color: #ddd;
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-            overflow: hidden;
-        }
-        
-        .game-button:hover, .game-button-featured:hover {
-            transform: scale(1.04);
-        }
-        
-        /* Regular game button style */
-        .game-button {
-            outline: 4px solid rgba(204, 204, 204, 0.8);
-        }
-        
-        /* Featured game button style with more subtle gold outline */
-        .game-button-featured {
-            outline: 4px solid #ffea2b99; /* More subtle gold outline */
-            box-shadow: 0 0 15px rgba(255, 251, 28, 0.7); /* Softer gold glow effect */
-            position: relative;
-        }
+/* Enhanced Game Button Styles */
+/* Enhanced Game Button Styles */
+.game-button, .game-button-featured {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    background-color: #ddd; /* Default grey background for all */
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
 
-        /* Featured label - now outside the button */
-        .featured-label {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(45deg, #ffd700, #ffea2b);
-            color: #333;
-            padding: 3px 12px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            border-radius: 15px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
+/* Regular game button (no special effects) */
+.game-button {
+    outline: none;
+    box-shadow: none; /* remove default box shadow */
+    animation: none; /* remove default animation */
+    box-shadow: 0 0 0 4px rgba(153, 153, 153, 0.8), 0 0 15px rgba(0, 0, 0, 0.2);
+}
 
-        .game-button img, .game-button-featured img {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-        }
-        .game-button .game-title, .game-button-featured .game-title {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-            letter-spacing: 3px; /* Improved letter spacing */
-            padding: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-        }
+/* Featured game button with special animated outline */
+.game-button-featured {
+    outline: none;
+    animation: outlineShiftFeatured 8s infinite linear;
+    background-color: inherit; /* Remove grey background from featured */
+}
+
+/* Hover effects */
+.game-button:hover, .game-button-featured:hover {
+    transform: scale(1.05);
+    animation-duration: 4s;
+}
+
+/* Color shifting animation for featured buttons */
+@keyframes outlineShiftFeatured {
+    0% { box-shadow: 0 0 0 4px rgba(123, 75, 255, 0.8), 0 0 15px rgba(123, 75, 255, 0.5); }
+    25% { box-shadow: 0 0 0 4px rgba(181, 75, 255, 0.8), 0 0 15px rgba(181, 75, 255, 0.5); }
+    50% { box-shadow: 0 0 0 4px rgba(255, 75, 217, 0.8), 0 0 15px rgba(255, 75, 217, 0.5); }
+    75% { box-shadow: 0 0 0 4px rgba(147, 75, 255, 0.8), 0 0 15px rgba(147, 75, 255, 0.5); }
+    100% { box-shadow: 0 0 0 4px rgba(123, 75, 255, 0.8), 0 0 15px rgba(123, 75, 255, 0.5); }
+}
+
+.game-button img, .game-button-featured img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.game-button:hover img, .game-button-featured:hover img {
+    transform: scale(1.03);
+}
+
+.game-button .game-title, .game-button-featured .game-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    letter-spacing: 3px;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.game-button:hover .game-title, .game-button-featured:hover .game-title {
+    background: rgba(123, 75, 255, 0.7);
+    transform: translateY(-5px);
+}
+
+/* Featured label styling to match the new color scheme */
+.featured-label {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #7b4bff, #a887ff);
+    color: white;
+    padding: 3px 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(123, 75, 255, 0.4);
+    z-index: 1;
+}
 
         
-        /* Stats Section Styles */
+        /* Stats Section Styles - ENHANCED WITH JUICY EFFECTS */
         .stats-section {
     display: none;
     margin-top: 30px;
@@ -230,10 +261,24 @@
     max-width: 600px;
     width: 100%;
     text-align: left;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .stats-section.active {
     display: block;
+    animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .stats-title {
@@ -241,34 +286,85 @@
     margin-bottom: 15px;
     text-align: center;
     color: #333;
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+}
+
+.stats-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #7b4bff, #45caff);
+    transform: translateX(-50%);
+    transition: width 0.4s ease;
+}
+
+.stats-section:hover .stats-title::after {
+    width: 150px;
+}
+
+.stats-section:hover .stats-title{
+    transform: translateY(-2px);
 }
 
 .stat-item {
     margin: 10px 0;
-    padding: 8px 12px;
+    padding: 12px 15px;
     background: #f8f8f8;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     font-size: 1.1rem;
-    transition: transform 0.2s ease-in-out; /* Added transition for smooth growth */
+    transition: all 0.3s ease-in-out; /* Changed timing function */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(123, 75, 255, 0.15), rgba(69, 202, 255, 0.15)); /* Increased alpha */
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out; /* Changed timing function */
+    z-index: -1;
 }
 
 .stat-item:hover {
-    transform: scale(1.05); /* Grow slightly on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Add a subtle shadow on hover */
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); /* Adjusted shadow */
+}
+
+.stat-item:hover::before {
+    transform: scaleX(1);
 }
 
 .stat-value {
     font-weight: bold;
     color: #444;
+    transition: all 0.3s ease-in-out; /* Changed timing function */
+    position: relative;
+}
+
+.stat-item:hover .stat-value {
+    color: #7b4bff;
+    transform: scale(1.15);
 }
 
 .stat-game-clicks {
     margin-top: 20px;
 }
         
-        /* Info Sections Styles */
+        /* Info Sections Styles - ENHANCED */
         .info-section {
             display: none;
             margin-top: 30px;
@@ -278,22 +374,167 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
             max-width: 600px;
             width: 100%;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .info-section.active {
             display: block;
+            animation: popIn 0.5s forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
         }
         .info-title {
             font-size: 1.8rem;
             margin-bottom: 15px;
             text-align: center;
             color: #333;
+            position: relative;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .info-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa36b);
+            transform: translateX(-50%);
+            transition: width 0.4s ease;
+        }
+        .info-section:hover .info-title {
+            transform: translateY(-3px);
+            color: #ff6b6b;
+        }
+        .info-section:hover .info-title::after {
+            width: 120px;
         }
         .info-content {
             line-height: 1.8;
             color: #444;
         }
+        
+        /* Enhanced paragraph styles */
         .info-content p {
             margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .info-content p::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #a8c0ff, #8e8cd8);
+            border-radius: 4px 0 0 4px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .info-content p:hover {
+            transform: translateX(5px) scale(1.02);
+            background-color: rgba(168, 192, 255, 0.1);
+            padding-left: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-content p:hover::before {
+            opacity: 1;
+        }
+        
+        /* Strong text highlight effect */
+        .info-content strong {
+            color: #5271C2;
+            position: relative;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .info-content strong:hover {
+            transform: scale(1.1);
+            color: #FF6B6B;
+        }
+        
+        /* Email link effect */
+        .info-content a {
+            color: #4A8FE7;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0 2px;
+        }
+        
+        .info-content a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4A8FE7, #FF6B6B);
+            transition: width 0.3s ease;
+        }
+        
+        .info-content a:hover {
+            color: #FF6B6B;
+        }
+        
+        .info-content a:hover::after {
+            width: 100%;
+        }
+
+        /* Make scrollbar prettier */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #7b4bff, #45caff);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #6a3aee, #34b9ee);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .more-games-section.active {
+                grid-template-columns: repeat(2, auto);
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .more-games-section.active {
+                grid-template-columns: 1fr;
+            }
+            .lower-bar div {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -318,24 +559,6 @@
                 </a>
             </div>
         </div>
-        <div class="game-button-container" data-id="1">
-            <div class="featured-label">Featured</div>
-            <div class="game-button-featured">
-                <a href="https://hehe-html.github.io/Ascii-Crawler/" target="_blank">
-                <img src="thumbnail2.jpg" alt="Game 2" />
-                <div class="game-title">Ascii Crawl</div>
-                </a>
-            </div>
-        </div>
-        <div class="game-button-container" data-id="2">
-            <div class="featured-label">Featured</div>
-            <div class="game-button-featured">
-                <a href="https://sprig.hackclub.com/gallery/Push-Peril" target="_blank">
-                <img src="thumbnail3.png" alt="Game 3" />
-                <div class="game-title">Push & Peril</div>
-                </a>
-            </div>
-        </div>
         <div class="game-button-container" data-id="3">
             <div class="featured-label">Featured</div>
             <div class="game-button-featured">
@@ -345,6 +568,22 @@
                 </a>
             </div>
         </div>
+
+        <div class="game-button-container" data-id="other">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="other">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <img src="placeholder.png" alt="Other Game" />
+                <div class="game-title">Coming Soon</div>
+            </div>
+        </div>
+
         <div class="game-button-container" data-id="other">
             <div class="game-button">
                 <img src="placeholder.png" alt="Other Game" />
@@ -446,13 +685,14 @@
             
             <p>Whether you've found a bug in one of our games, have an idea for a collaboration, or simply want to share your experience, your feedback is incredibly valuable to us.</p>
             
-            <p><strong>Email:</strong> playwonkygames@gmail.com</p>
+            <p><strong>Email:</strong> <a href="mailto:playwonkygames@gmail.com">playwonkygames@gmail.com</a></p>
             
-            <p><strong>Itch.io:</strong> https://play-this-game.itch.io/</p>
+            <p><strong>Itch.io:</strong> <a href="https://play-this-game.itch.io/" target="_blank">https://play-this-game.itch.io/</a></p>
             
             <p>We aim to respond to all inquiries within 48 hours. For partnership opportunities or business-related matters, please include "Business" in your email subject line.</p>
             
             <p>Follow us on social media to stay updated on our latest releases, behind-the-scenes content, and upcoming projects!</p>
+
         </div>
     </div>
 
