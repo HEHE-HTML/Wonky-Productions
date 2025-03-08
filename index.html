@@ -12,6 +12,7 @@
             box-sizing: border-box;
             font-family: 'Varela Round', sans-serif;
         }
+        
         body {
             background: linear-gradient(135deg, #f3f3f3, #dcdcdc);
             display: flex;
@@ -540,6 +541,7 @@
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 <body>
+    
     <div class="grid-bg"></div>
     <div class="main-content">
         <h1>Wonky Productions</h1>
@@ -548,7 +550,7 @@
             <button class="juicy-button" id="statsButton">Stats</button>
         </div>
     </div>
-
+    
     <div class="more-games-section" id="moreGamesSection">
         <div class="game-button-container" data-id="0">
             <div class="featured-label">Featured</div>
@@ -587,7 +589,7 @@
                 </a>
             </div>
         </div>
-        <iframe src="https://bulldog-beef.onrender.com/" width="800" height="600"></iframe>
+
         <div class="game-button-container" data-id="other">
             <div class="game-button">
                 <a href="https://hehe-html.github.io/SwiftType/" target="_blank">
@@ -645,15 +647,15 @@
                 <span class="stat-value" id="gameClicksStat_0">0</span>
             </div>
             <div class="stat-item">
-                <span>Ascii Crawl Plays:</span>
+                <span>Idle Gainz Plays:</span>
                 <span class="stat-value" id="gameClicksStat_1">0</span>
             </div>
             <div class="stat-item">
-                <span>Push & Peril Plays:</span>
+                <span>Tic-Tac-Toe Plays:</span>
                 <span class="stat-value" id="gameClicksStat_2">0</span>
             </div>
             <div class="stat-item">
-                <span>Idle Gainz Plays:</span>
+                <span>Countdown Plays:</span>
                 <span class="stat-value" id="gameClicksStat_3">0</span>
             </div>
             <div class="stat-item">
@@ -714,8 +716,13 @@
         <div id="homeButton">Home</div>
         <div id="aboutButton">About</div>
         <div id="contactButton">Contact</div>
+        
     </div>
-
+    <a href="https://hehe-html.github.io/Bulldog-Beef/" target="_blank" style="padding: 12px 25px; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease; text-decoration: none; background: red; border-radius: 50px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); position: fixed; bottom: 20px; left: 20px; z-index: 100; overflow: hidden; transform: scale(1);"
+    onmouseover="this.style.transform = 'scale(1.1)'; this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.7)'; this.style.background = '#d90000'; this.title = '';"
+    onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)'; this.style.background = 'red'; this.title = '';"
+    onmousedown="this.style.transform = 'scale(0.95)'; this.style.boxShadow = '2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(255, 255, 255, 0.8)'; this.title = '';"
+    onmouseup="this.style.transform = 'scale(1.1)'; this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.7)'; this.style.background = '#d90000'; this.title = '';">Bulldog Beef</a>
     <script>
         // Function to get and update local storage values
         function getStat(key) {
