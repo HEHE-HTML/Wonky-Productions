@@ -137,26 +137,74 @@
             background: #555;
         }
             
-        /* New Game Section */
+        /* New Game Section with Pagination */
         .more-games-section {
             display: none;
             margin-top: 30px;
             text-align: center;
+            position: relative;
         }
         .more-games-section.active {
+            display: block;
+        }
+        
+        .games-page {
             display: grid;
             grid-template-columns: repeat(4, auto);
             justify-content: center;
-            overflow-y: auto;
-            max-height: 70vh; /* adjust as needed */
+            gap: 20px;
         }
+        
+        .games-page:not(.active) {
+            display: none;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        
+        .pagination-arrow {
+            padding: 10px 15px;
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            border-radius: 50%;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2), -3px -3px 10px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .pagination-arrow:hover {
+            transform: scale(1.1);
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
+        }
+        
+        .pagination-arrow:active {
+            transform: scale(0.95);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.8);
+        }
+        
+        .pagination-arrow.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-indicator {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
         .game-button-container {
             margin: 10px;
             position: relative;
             width: 200px;
         }
         
-/* Enhanced Game Button Styles */
 /* Enhanced Game Button Styles */
 .game-button, .game-button-featured {
     width: 200px;
@@ -176,6 +224,7 @@
     box-shadow: none; /* remove default box shadow */
     animation: none; /* remove default animation */
     box-shadow: 0 0 0 4px rgba(153, 153, 153, 0.8), 0 0 15px rgba(0, 0, 0, 0.2);
+    
 }
 
 /* Featured game button with special animated outline */
@@ -516,7 +565,7 @@
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .more-games-section.active {
+            .games-page {
                 grid-template-columns: repeat(2, auto);
             }
             h1 {
@@ -529,7 +578,7 @@
         }
         
         @media (max-width: 480px) {
-            .more-games-section.active {
+            .games-page {
                 grid-template-columns: 1fr;
             }
             .lower-bar div {
@@ -553,86 +602,104 @@
     
 
 <div class="more-games-section" id="moreGamesSection">
-    <div class="game-button-container" data-id="0">
-        <div class="featured-label">Featured</div>
-        <div class="game-button-featured">
-            <a href="https://hehe-html.github.io/Checkers-Game/" target="_blank">
-                <img src="thumbnail1alt.png" alt="Game 1" />
-                <div class="game-title">Checkers</div>
-            </a>
+    <!-- Page 1 -->
+    <div class="games-page active" data-page="1">
+        <div class="game-button-container" data-id="0">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/Checkers-Game/" target="_blank">
+                    <img src="thumbnail1alt.png" alt="Game 1" />
+                    <div class="game-title">Checkers</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="3">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/Tank-Game/" target="_blank">
+                    <img src="tank.png" alt="Game 2" />
+                    <div class="game-title">Tank Game</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="3">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/Quizbowl/" target="_blank">
+                    <img src="quizbowl.png" alt="Game 3" />
+                    <div class="game-title">Quizbowl</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="3">
+            <div class="featured-label">Featured</div>
+            <div class="game-button-featured">
+                <a href="https://hehe-html.github.io/SwiftType/" target="_blank">
+                    <img src="swift.png" alt="Game 4" />
+                    <div class="game-title">SwiftType</div>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="game-button-container" data-id="3">
-        <div class="featured-label">Featured</div>
-        <div class="game-button-featured">
-            <a href="https://hehe-html.github.io/Tank-Game/" target="_blank">
-                <img src="tank.png" alt="Game 2" />
-                <div class="game-title">Tank Game</div>
-            </a>
+    
+    <!-- Page 2 -->
+    <div class="games-page" data-page="2">
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <a href="https://hehe-html.github.io/tic-tac-toe/" target="_blank">
+                    <img src="tic-tac-toe.png" alt="Other Game" />
+                    <div class="game-title">Tic-Tac-Toe</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <a href="https://hydrokube.github.io/gainz/" target="_blank">
+                    <img src="thumbnail4.jpg" alt="Other Game" />
+                    <div class="game-title">Idle Gainz</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <a href="https://hehe-html.github.io/Burn-Master/" target="_blank">
+                    <img src="burn.png" alt="Other Game" />
+                    <div class="game-title">Burn Master</div>
+                </a>
+            </div>
+        </div>
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <a href="https://hehe-html.github.io/timer/" target="_blank">
+                    <img src="clock.jpg" alt="Other Game" />
+                    <div class="game-title">Countdown</div>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="game-button-container" data-id="3">
-        <div class="featured-label">Featured</div>
-        <div class="game-button-featured">
-            <a href="https://hehe-html.github.io/Quizbowl/" target="_blank">
-                <img src="quizbowl.png" alt="Game 3" />
-                <div class="game-title">Quizbowl</div>
-            </a>
+    
+    <!-- Page 3 -->
+    <div class="games-page" data-page="3">
+        <div class="game-button-container" data-id="other">
+            <div class="game-button">
+                <a href="https://hehe-html.github.io/Pong-Deluxe/" target="_blank">
+                    <img src="pong.png" alt="Other Game" />
+                    <div class="game-title">Pong Deluxe</div>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="game-button-container" data-id="3">
-        <div class="featured-label">Featured</div>
-        <div class="game-button-featured">
-            <a href="https://hehe-html.github.io/SwiftType/" target="_blank">
-                <img src="swift.png" alt="Game 4" />
-                <div class="game-title">SwiftType</div>
-            </a>
+    
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+        <div class="pagination-arrow" id="prevPage"><</div>
+        <div class="pagination-indicator">
+            <span id="currentPage">1</span>/<span id="totalPages">3</span>
         </div>
-    </div>
-
-    <div class="game-button-container" data-id="other">
-        <div class="game-button">
-            <a href="https://hehe-html.github.io/tic-tac-toe/" target="_blank">
-                <img src="tic-tac-toe.png" alt="Other Game" />
-                <div class="game-title">Tic-Tac-Toe</div>
-            </a>
-        </div>
-    </div>
-    <div class="game-button-container" data-id="other">
-        <div class="game-button">
-            <a href="https://hydrokube.github.io/gainz/" target="_blank">
-                <img src="thumbnail4.jpg" alt="Other Game" />
-                <div class="game-title">Idle Gainz</div>
-            </a>
-        </div>
-    </div>
-    <div class="game-button-container" data-id="other">
-        <div class="game-button">
-            <a href="https://hehe-html.github.io/Burn-Master/" target="_blank">
-                <img src="burn.png" alt="Other Game" />
-                <div class="game-title">Burn Master</div>
-            </a>
-        </div>
-    </div>
-    <div class="game-button-container" data-id="other">
-        <div class="game-button">
-            <a href="https://hehe-html.github.io/timer/" target="_blank">
-                <img src="clock.jpg" alt="Other Game" />
-                <div class="game-title">Countdown</div>
-            </a>
-        </div>
-    </div>
-    <div class="game-button-container" data-id="other">
-        <div class="game-button">
-            <a href="https://hehe-html.github.io/Pong-Deluxe/" target="_blank">
-                <img src="pong.png" alt="Other Game" />
-                <div class="game-title">Pong Deluxe</div>
-            </a>
-        </div>
+        <div class="pagination-arrow" id="nextPage">></div>
     </div>
 </div>
 
-</div>
     <!-- Stats Section -->
     <div class="stats-section" id="statsSection">
         <h2 class="stats-title">Website Statistics</h2>
@@ -718,7 +785,6 @@
 
         </div>
     </div>
-
     <div class="lower-bar">
         <div id="homeButton">Home</div>
         <div id="aboutButton">About</div>
@@ -864,6 +930,63 @@
         
         // Initial display
         updateStatsDisplay();
+        // Pagination functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+    const currentPageEl = document.getElementById('currentPage');
+    const totalPagesEl = document.getElementById('totalPages');
+    const gamePages = document.querySelectorAll('.games-page');
+    
+    let currentPage = 1;
+    const totalPages = gamePages.length;
+    
+    // Initialize page display
+    currentPageEl.textContent = currentPage;
+    totalPagesEl.textContent = totalPages;
+    
+    // Check if buttons should be disabled
+    function updateNavButtons() {
+        prevPageBtn.classList.toggle('disabled', currentPage === 1);
+        nextPageBtn.classList.toggle('disabled', currentPage === totalPages);
+    }
+    
+    // Change page function
+    function changePage(newPage) {
+        if (newPage < 1 || newPage > totalPages) return;
+        
+        // Hide all pages
+        gamePages.forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Show the selected page
+        const pageToShow = document.querySelector(`.games-page[data-page="${newPage}"]`);
+        if (pageToShow) {
+            pageToShow.classList.add('active');
+            currentPage = newPage;
+            currentPageEl.textContent = currentPage;
+            updateNavButtons();
+        }
+    }
+    
+    // Previous page button click
+    prevPageBtn.addEventListener('click', function() {
+        if (currentPage > 1) {
+            changePage(currentPage - 1);
+        }
+    });
+    
+    // Next page button click
+    nextPageBtn.addEventListener('click', function() {
+        if (currentPage < totalPages) {
+            changePage(currentPage + 1);
+        }
+    });
+    
+    // Initial button state
+    updateNavButtons();
+});
     </script>
 </body>
 </html>
